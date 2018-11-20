@@ -22,8 +22,7 @@ export class SearchService {
 
   private onQueryChanged(query: string) {
     this.search(query).subscribe(result => {
-      console.log('query result');
-      console.log(result);
+      this.queryResponseSubject.next(result);
     });
   }
 
@@ -35,8 +34,8 @@ export class SearchService {
       });
   }
 
-  public subscribeOnQueryResponse(next?: (value: any) => void, error?: (error: any) => void, complete?: () => void) {
-    this.queryResponseSubject.subscribe(next, error, complete);
+  public queryResponseObservable() {
+    return this.queryResponseSubject.asObservable()
   }
 
   private search(query: string): any {

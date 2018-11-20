@@ -25,7 +25,7 @@ namespace Elastic.Repository
                     {
                         title = new
                         {
-                            query = "jogo ps4",
+                            query = search,
                             fuzziness = 2,
                             prefix_length = 1
                         }

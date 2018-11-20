@@ -86,6 +86,8 @@ namespace Api
                 app.UseHsts();
             }
 
+            app.UseCors(b => b.AllowAnyOrigin());
+
             app.UseHttpsRedirection();
             app.UseMvc();
         }

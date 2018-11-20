@@ -7,11 +7,7 @@ import { SearchService } from '../search.service';
   styleUrls: ['./search-list.component.css']
 })
 export class SearchListComponent implements OnInit {
-  searchItems = [
-    {
-      title: "teste"
-    }
-  ];
+  searchItems: any;
   
   constructor(private searchService: SearchService) { 
   }
@@ -21,10 +17,7 @@ export class SearchListComponent implements OnInit {
   }
 
   private subscribeOnQueryResults() {
-    this.searchService.subscribeOnQueryResponse(model => {
-      console.log(model);
-      this.searchItems = model;
-    });
+    this.searchItems = this.searchService.queryResponseObservable();
   }
 
 }
