@@ -19,6 +19,8 @@ namespace Elastic.Repository
         {
             var result = _elasticClient.LowLevel.Search<SearchResponse<ResultDocument>>("search", "offers", PostData.Serializable(new
             {
+                from = 0,
+                size = 11,
                 query = new
                 {
                     match = new
