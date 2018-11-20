@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SearchService } from '../search.service';
 
 @Component({
   selector: 'app-search-list',
@@ -12,9 +13,18 @@ export class SearchListComponent implements OnInit {
     }
   ];
   
-  constructor() { }
+  constructor(private searchService: SearchService) { 
+  }
 
   ngOnInit() {
+    this.subscribeOnQueryResults();
+  }
+
+  private subscribeOnQueryResults() {
+    this.searchService.subscribeOnQueryResponse(model => {
+      console.log(model);
+      this.searchItems = model;
+    });
   }
 
 }
