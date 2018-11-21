@@ -1,0 +1,12 @@
+input {
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 9px;
+    padding: 10px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    min-width: 50%;
+    text-align: center;
+    -webkit-box-shadow: 2px 4px 16px 0px rgba(0,0,0,0.26);
+    -moz-box-shadow: 2px 4px 16px 0px rgba(0,0,0,0.26);
+    box-shadow: 2px 4px 16px 0px rgba(0,0,0,0.26);
+}

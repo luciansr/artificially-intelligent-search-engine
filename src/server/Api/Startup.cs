@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Nest;
@@ -29,49 +30,26 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            //ElasticConfig(services);
-
-
-            var url = Configuration["ElasticSettings:URL"];
-            var defaultIndex = Configuration["ElasticSettings:Index"];
-
-            var settings = new ConnectionSettings(new Uri(url))
-                .DefaultIndex(defaultIndex)
-                // .DefaultMappingFor<Post>(m => m
-                //     .Ignore(p => p.IsPublished)
-                //     .PropertyName(p => p.ID, "id")
-                // )
-                // .DefaultMappingFor<Comment>(m => m
-                //     .Ignore(c => c.Email)
-                //     .Ignore(c => c.IsAdmin)
-                //     .PropertyName(c => c.ID, "id")
-                // )
-            ;
-
-            services.AddSingleton<IElasticClient>(new ElasticClient(settings));
+            ElasticConfig(services);
+            RedisConfig(services);
 
             services.AddTransient<ElasticService>();
             services.AddTransient<ElasticRepository>();
         }
 
+        private void RedisConfig(IServiceCollection services) {
+            services.AddDistributedRedisCache(option =>
+            {
+                option.Configuration = Configuration["Redis:URL"];
+                option.InstanceName = Configuration["Redis:InstanceName"];
+            });
+        }
+
         private void ElasticConfig(IServiceCollection services) {
-            var url = Configuration["Elasticsearch:URL"];
-            var defaultIndex = Configuration["Elasticsearch:Index"];
-
-            var settings = new ConnectionSettings(new Uri(url))
-                .DefaultIndex(defaultIndex)
-                // .DefaultMappingFor<Post>(m => m
-                //     .Ignore(p => p.IsPublished)
-                //     .PropertyName(p => p.ID, "id")
-                // )
-                // .DefaultMappingFor<Comment>(m => m
-                //     .Ignore(c => c.Email)
-                //     .Ignore(c => c.IsAdmin)
-                //     .PropertyName(c => c.ID, "id")
-                // )
-            ;
-
-            services.AddSingleton<IElasticClient>(new ElasticClient(settings));
+            services.AddSingleton<IElasticClient>(new ElasticClient(
+                new ConnectionSettings(new Uri(Configuration["Elasticsearch:URL"]))
+                    .DefaultIndex(Configuration["Elasticsearch:Index"])
+                    ));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

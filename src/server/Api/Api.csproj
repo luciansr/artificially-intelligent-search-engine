@@ -12,6 +12,7 @@
     <PackageReference Include="Elasticsearch.Net" Version="6.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.1.2" />
     <PackageReference Include="NEST" Version="6.4.0" />
   </ItemGroup>
 
