@@ -1,5 +1,9 @@
 # search-engine-testing
 
+# docker-compose
+```sh
+docker-compose up -d
+```
 
 # Needed to run docker-compose
 ```sh
