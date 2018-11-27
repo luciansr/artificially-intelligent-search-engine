@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  server: {
+    url: "http://search-api:5000"
+  }
 };

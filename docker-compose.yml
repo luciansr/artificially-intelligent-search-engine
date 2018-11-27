@@ -33,15 +33,15 @@ services:
     ports:
       - "9500:6379"
 
-  core-search-api:
+  search-api:
     build:
       context: ./src/server
       dockerfile: Dockerfile
     # networks:
     #   - my_network
     links:
-    - elasticsearch
-    - redis
+      - elasticsearch
+      - redis
     container_name: core-search-api1
     ports:
       - "5000:5000"
@@ -52,6 +52,17 @@ services:
       - Elasticsearch:Index=search
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:5000
+  
+  angular:
+    hostname: localhost
+    build: 
+      context: ./src/my-app
+      dockerfile: Dockerfile
+    container_name: front-end1
+    links:
+      - search-api
+    ports:
+      - 80:80
 
 volumes:
   esdata1:
