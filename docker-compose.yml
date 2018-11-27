@@ -4,6 +4,8 @@ services:
     build: 
       context: ./dataset
       dockerfile: Dockerfile
+    # networks:
+    #   - my_network
     container_name: elasticcompose1
     environment:
       # - discovery.type=single-node
@@ -16,6 +18,8 @@ services:
         hard: -1
     volumes:
       - esdata1:/usr/share/elasticsearch/data 
+    expose:
+      - "9200"
     ports:
       - "9200:9200"
 
@@ -23,6 +27,8 @@ services:
     build:
       context: ./redis
       dockerfile: Dockerfile
+    # networks:
+    #   - my_network
     container_name: redis1
     ports:
       - "9500:6379"
@@ -31,20 +37,25 @@ services:
     build:
       context: ./src/server
       dockerfile: Dockerfile
+    # networks:
+    #   - my_network
+    links:
+    - elasticsearch
+    - redis
     container_name: core-search-api1
     ports:
       - "5000:5000"
     environment:
-      - Redis__URL=http://localhost:9500
-      - Redis:InstanceName=http://localhost:9500
-      - Elasticsearch:URL=http://localhost:9200
+      - Redis__URL=http://redis:6379
+      - Redis:InstanceName=master
+      - Elasticsearch:URL=http://elasticsearch:9200
       - Elasticsearch:Index=search
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://localhost:5000
+      - ASPNETCORE_URLS=http://0.0.0.0:5000
 
 volumes:
   esdata1:
     driver: local
 
 # networks:
-#   esnet:
+#   my_network:
