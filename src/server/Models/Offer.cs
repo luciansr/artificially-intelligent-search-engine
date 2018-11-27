@@ -2,7 +2,7 @@
 
 namespace Models
 {
-    public class ResultDocument
+    public class Offer
     {
         public String title {get; set;}
     }

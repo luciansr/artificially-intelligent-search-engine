@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Nest;
 using Services;
+using Services.SearchLearning;
 
 namespace Api
 {
@@ -35,6 +36,7 @@ namespace Api
 
             services.AddTransient<ElasticService>();
             services.AddTransient<ElasticRepository>();
+            services.AddTransient<SearchLearningService>();
         }
 
         private void RedisConfig(IServiceCollection services) {
