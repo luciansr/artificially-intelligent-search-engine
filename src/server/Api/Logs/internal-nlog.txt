@@ -1,8 +1,0 @@
-2018-11-26 23:04:27.6032 Info Message Template Auto Format enabled
-2018-11-26 23:04:27.6282 Info Loading assembly: NLog.Web.AspNetCore
-2018-11-26 23:04:27.7532 Info Adding target File Target[allfile]
-2018-11-26 23:04:27.7553 Info Adding target File Target[ownFile-web]
-2018-11-26 23:04:27.7657 Info Configured from an XML element in /Users/lucian/Workspace/git/search-engine-testing/src/server/Api/bin/Debug/netcoreapp2.1/NLog.config...
-2018-11-26 23:04:27.7871 Info Found 45 configuration items
-2018-11-26 23:04:27.8910 Info Configuration initialized.
-2018-11-26 23:04:27.9818 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.11.8645. Product version: 4.5.11.

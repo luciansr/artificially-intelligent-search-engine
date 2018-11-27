@@ -383,3 +383,6 @@ fabric.properties
 .history
 
 # End of https://www.gitignore.io/api/rider,angular,aspnetcore,visualstudiocode
+
+
+***/*/Api/Logs
