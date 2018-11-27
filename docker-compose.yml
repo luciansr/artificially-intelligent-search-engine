@@ -34,6 +34,13 @@ services:
     container_name: core-search-api1
     ports:
       - "5000:5000"
+    environment:
+      - Redis__URL=http://localhost:9500
+      - Redis:InstanceName=http://localhost:9500
+      - Elasticsearch:URL=http://localhost:9200
+      - Elasticsearch:Index=search
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://localhost:5000
 
 volumes:
   esdata1:
