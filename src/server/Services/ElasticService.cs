@@ -13,8 +13,8 @@ namespace Services
         {
             _elasticRepository = elasticRepository;
         }
-        public IEnumerable<ResultDocument> Search(String query) {
-            return _elasticRepository.Search(query);
+        public IEnumerable<Offer> Search(String query) {
+            return _elasticRepository.SearchOffer(query);
         }
     }
 }

@@ -34,6 +34,8 @@ namespace Api
             ElasticConfig(services);
             RedisConfig(services);
 
+            services.AddNodeServices();
+
             services.AddTransient<ElasticService>();
             services.AddTransient<ElasticRepository>();
             services.AddTransient<SearchLearningService>();

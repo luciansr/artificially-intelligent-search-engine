@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Elasticsearch.Net" Version="6.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.1.2" />
     <PackageReference Include="NEST" Version="6.4.0" />
@@ -24,7 +25,11 @@
     <ProjectReference Include="..\Elastic.Repository\Elastic.Repository.csproj" />
   </ItemGroup>
 
-    <ItemGroup>
+  <ItemGroup>
+    <Content Update="nlog.config" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="Node/neuralnetwork.js" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="Node/package.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="Node/yarn.lock" CopyToOutputDirectory="PreserveNewest" />
     <Content Update="nlog.config" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
