@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.NodeServices;
 
 namespace Services
@@ -10,8 +11,8 @@ namespace Services
         {
             _nodeServices = nodeServices;
         }
-        public void Execute(object data) {
-            _nodeServices.InvokeAsync<string>("./Node/neuralNetwork");
+        public Object Execute(object data) {
+            return _nodeServices.InvokeAsync<Object>("./Node/neuralNetwork", data).Result;
         }
     }
 }

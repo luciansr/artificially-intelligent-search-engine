@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Elasticsearch.Net" Version="6.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="2.1.1" />
@@ -27,10 +23,14 @@
 
   <ItemGroup>
     <Content Update="nlog.config" CopyToOutputDirectory="PreserveNewest" />
-    <Content Update="Node/neuralnetwork.js" CopyToOutputDirectory="PreserveNewest" />
-    <Content Update="Node/package.json" CopyToOutputDirectory="PreserveNewest" />
-    <Content Update="Node/yarn.lock" CopyToOutputDirectory="PreserveNewest" />
-    <Content Update="nlog.config" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- <Content Include="Node\*.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content> -->
+    <Content Include="Node\*.js" CopyToOutputDirectory="Always" />
+    <Content Include="Node\node_modules\**\*" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
 </Project>
