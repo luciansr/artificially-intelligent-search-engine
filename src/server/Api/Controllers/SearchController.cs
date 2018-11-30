@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Services;
+using Services.SearchLearning;
 
 namespace Api.Controllers
 {
@@ -13,9 +14,20 @@ namespace Api.Controllers
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Search([FromServices]ElasticService elasticService, String query)
+        public IActionResult Search([FromServices]ElasticService elasticService, String query)
         {
             return Ok(elasticService.Search(query));
         }
+
+        [HttpPost]
+        public IActionResult ItemClicked(
+            [FromServices]SearchLearningService searchLearningService, 
+            string query, 
+            string id)
+        {
+            searchLearningService.ItemClicked(query, id);
+            return Ok();
+        }
+
     }
 }
