@@ -16,19 +16,32 @@ namespace Elastic.Repository
             _elasticClient = elasticClient;
         }
 
-        public void AddQuery(string query) {
+        public void AddQueryIfNotExistent(string query)
+        {
             var resultQuery = SearchExactQuery(query);
 
-            if(resultQuery == null || resultQuery.FirstOrDefault()?.query != query) {
-                var result =_elasticClient.LowLevel.Index<BytesResponse>("search", "query", PostData.Serializable(new Query{
-                    query = query
-                }));
-            }            
+            if (resultQuery == null || resultQuery.FirstOrDefault()?.query != query)
+            {
+                AddQuery(query);
+            }
+        }
+
+        private void AddQuery(string query)
+        {
+            var result = _elasticClient.IndexDocument(new Query
+            {
+                query = query
+            });
+            
+            //  Index<BytesResponse>("search", "query", PostData.Serializable(new Query
+            // {
+            //     query = query
+            // }));
         }
 
         public IEnumerable<Offer> SearchOffer(String query)
         {
-            AddQuery(query);
+            AddQueryIfNotExistent(query);
 
             var result = _elasticClient.LowLevel.Search<SearchResponse<Offer>>("search", "offers", PostData.Serializable(new
             {
@@ -68,7 +81,9 @@ namespace Elastic.Repository
                     {
                         query = new
                         {
-                            query = query
+                            query = query,
+                            fuzziness = 2,
+                            prefix_length = 1
                         }
                     }
                 }
