@@ -28,22 +28,22 @@ namespace Elastic.Repository
 
         private void AddQuery(string query)
         {
-            var result = _elasticClient.IndexDocument(new Query
-            {
-                query = query
-            });
-            
-            //  Index<BytesResponse>("search", "query", PostData.Serializable(new Query
+            // var result = _elasticClient.IndexDocument(new Query
             // {
             //     query = query
-            // }));
+            // });
+            
+            _elasticClient.LowLevel.Index<BytesResponse>("search", "query", PostData.Serializable(new Query
+            {
+                query = query
+            }));
         }
 
         public IEnumerable<Offer> SearchOffer(String query)
         {
             AddQueryIfNotExistent(query);
 
-            var result = _elasticClient.LowLevel.Search<SearchResponse<Offer>>("search", "offers", PostData.Serializable(new
+            var result = _elasticClient.LowLevel.Search<SearchResponse<Offer>>("index_offer", "offer", PostData.Serializable(new
             {
                 from = 0,
                 size = 11,
