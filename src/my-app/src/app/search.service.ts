@@ -11,6 +11,7 @@ import { debounceTime } from 'rxjs/operators'
 export class SearchService {
   private queryModelSubject: Subject<string> = new Subject<string>();
   private queryResponseSubject: Subject<any> = new Subject<any>();
+  private currentQuery = '';
 
   constructor(private http: HttpClient) { 
     this.subscribeOnQueryModel();
@@ -39,6 +40,11 @@ export class SearchService {
   }
 
   private search(query: string): any {
+    this.currentQuery = query;
     return this.http.get(`${environment.server.url}/api/search?query=${query}`); 
+  }
+
+  public itemClicked(item: any) {
+    this.http.post(`${environment.server.url}/api/search?query=${this.currentQuery}&id=${item.id}`, null);
   }
 }
