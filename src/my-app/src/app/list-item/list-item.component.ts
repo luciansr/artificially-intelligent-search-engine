@@ -14,4 +14,8 @@ export class ListItemComponent implements OnInit {
   ngOnInit() {
   }
 
+  itemClicked() {
+    alert();
+  }
+
 }

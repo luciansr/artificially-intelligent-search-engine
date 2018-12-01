@@ -1,3 +1,13 @@
-<p>
-  {{item.title}}
-</p>
+<div class="main-div">
+  <div>
+    <div>ID: {{item.id}}</div>
+    <div>{{item.title}}</div>
+  </div>
+  <br />
+  <div class="second-line">
+    <div>Altura: {{item.height}} </div>
+    <div>Largura: {{item.width}} </div>
+    <div>Peso: {{item.weight}}</div>
+    <button (click)=itemClicked()>Selecionar</button>
+  </div>
+</div>
