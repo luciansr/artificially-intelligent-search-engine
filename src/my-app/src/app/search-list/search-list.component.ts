@@ -8,8 +8,8 @@ import { SearchService } from '../search.service';
 })
 export class SearchListComponent implements OnInit {
   searchItems: any;
-  
-  constructor(private searchService: SearchService) { 
+
+  constructor(private searchService: SearchService) {
   }
 
   ngOnInit() {
@@ -17,7 +17,14 @@ export class SearchListComponent implements OnInit {
   }
 
   private subscribeOnQueryResults() {
-    this.searchItems = this.searchService.queryResponseObservable();
+    this.searchService.queryResponseObservable().subscribe((data: any[]) => {
+      if (data) {
+        data.sort((a, b) => {
+          return b.leadInQuery - a.leadInQuery;
+        });
+      }
+      this.searchItems = data;
+    })
   }
 
 }

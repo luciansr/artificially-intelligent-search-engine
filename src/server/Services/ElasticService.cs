@@ -19,6 +19,7 @@ namespace Services
         public IEnumerable<NeuralItemResult> Search(String query)
         {
             var offers = _elasticRepository.SearchOffer(query);
+            if(offers == null) return null;
             return _searchLearningService.OrderOffers(offers, query);
         }
     }

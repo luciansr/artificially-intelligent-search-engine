@@ -23,9 +23,11 @@ namespace Services.SearchLearning
 
         public IEnumerable<NeuralItemResult> OrderOffers(IEnumerable<Offer> offers, string query)
         {
+            if (offers == null) return null;
+            
             Dictionary<int, int> itemsClickedInThisSearch = null;
 
-            if (itemsClickedInSearch.ContainsKey(query))
+            if (!String.IsNullOrEmpty(query) && itemsClickedInSearch.ContainsKey(query))
             {
                 itemsClickedInThisSearch = itemsClickedInSearch[query];
             }
@@ -55,7 +57,6 @@ namespace Services.SearchLearning
             {
                 queryItemClickedCount = itemsClickedInSearch[query];
             }
-
 
             if (!queryItemClickedCount.ContainsKey(id))
             {
