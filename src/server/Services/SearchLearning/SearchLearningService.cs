@@ -32,7 +32,7 @@ namespace Services.SearchLearning
                 itemsClickedInThisSearch = itemsClickedInSearch[query];
             }
 
-            return offers.Select(offer =>
+            var neuralItems = offers.Select(offer =>
             {
                 NeuralItemResult neuralItem = new NeuralItemResult();
                 neuralItem.Item = offer;
@@ -43,6 +43,15 @@ namespace Services.SearchLearning
                 }
                 return neuralItem;
             });
+
+            neuralItems = OrderByNeuralNetwork(neuralItems);
+
+            return neuralItems;
+        }
+
+        private IEnumerable<NeuralItemResult> OrderByNeuralNetwork(IEnumerable<NeuralItemResult> neuralItems)
+        {
+            throw new NotImplementedException();
         }
 
         public void ItemClicked(string query, int id)
