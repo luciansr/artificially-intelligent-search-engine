@@ -29,8 +29,8 @@
     <!-- <Content Include="Node\*.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content> -->
-    <Content Include="Node\*.js" CopyToOutputDirectory="Always" />
-    <Content Include="Node\node_modules\**\*" CopyToOutputDirectory="Always" />
+    <Content Include="Node\*.js" CopyToOutputDirectory="PreserveNewest" />
+    <!-- <Content Include="Node\node_modules\**\*" CopyToOutputDirectory="PreserveNewest" /> -->
   </ItemGroup>
 
 </Project>
