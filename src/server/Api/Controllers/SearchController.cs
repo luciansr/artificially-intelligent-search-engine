@@ -18,5 +18,15 @@ namespace Api.Controllers
         {
             return Ok(elasticService.Search(query));
         }
+
+        [HttpPost]
+        public IActionResult ItemClicked(
+            [FromServices]SearchLearningService searchLearningService,
+            string query,
+            int id)
+        {
+            searchLearningService.ItemClicked(query, id);
+            return Ok();
+        }
     }
 }

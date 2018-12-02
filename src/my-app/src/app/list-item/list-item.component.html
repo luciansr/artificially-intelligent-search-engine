@@ -1,13 +1,15 @@
 <div class="main-div">
   <div>
-    <div>ID: {{item.id}}</div>
-    <div>{{item.title}}</div>
+    <div>ID: {{offer.id}}</div>
+    <div>{{offer.title}}</div>
   </div>
   <br />
   <div class="second-line">
-    <div>Altura: {{item.height}} </div>
-    <div>Largura: {{item.width}} </div>
-    <div>Peso: {{item.weight}}</div>
+    <div>Altura: {{offer.height}} </div>
+    <div>Largura: {{offer.width}} </div>
+    <div>Peso: {{offer.weight}}</div>
     <button (click)=itemClicked()>Selecionar</button>
+    <div>Lead: {{item.leadInQuery}} </div>
+    <div>Order: {{item.neuralOrder}}</div>
   </div>
 </div>

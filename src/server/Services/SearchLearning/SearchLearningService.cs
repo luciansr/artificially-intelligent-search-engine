@@ -9,27 +9,46 @@ namespace Services.SearchLearning
     {
         private const int NUMBER_OF_CLICKS_TO_RECALCULATE = 10;
         private JavascriptExecutor _javascriptExecutor;
-        private ElasticService _elasticService;
 
         //move to redis when finished
-        public static Dictionary<String, Dictionary<string, int>> itemsClickedInSearch;
+        public static Dictionary<String, Dictionary<int, int>> itemsClickedInSearch = new Dictionary<string, Dictionary<int, int>>();
         //move to redis when finished
         public static Dictionary<String, String> trainedModels;
 
         public SearchLearningService(
-            JavascriptExecutor javascriptExecutor,
-            ElasticService elasticService)
+            JavascriptExecutor javascriptExecutor)
         {
             _javascriptExecutor = javascriptExecutor;
-            _elasticService = elasticService;
         }
 
-        public void ItemClicked(string query, string id)
+        public IEnumerable<NeuralItemResult> OrderOffers(IEnumerable<Offer> offers, string query)
         {
-            Dictionary<string, int> queryItemClickedCount = null;
+            Dictionary<int, int> itemsClickedInThisSearch = null;
+
+            if (itemsClickedInSearch.ContainsKey(query))
+            {
+                itemsClickedInThisSearch = itemsClickedInSearch[query];
+            }
+
+            return offers.Select(offer =>
+            {
+                NeuralItemResult neuralItem = new NeuralItemResult();
+                neuralItem.Item = offer;
+                neuralItem.NeuralOrder = 1;
+                if (itemsClickedInThisSearch != null && itemsClickedInThisSearch.ContainsKey(offer.id))
+                {
+                    neuralItem.LeadInQuery = itemsClickedInThisSearch[offer.id];
+                }
+                return neuralItem;
+            });
+        }
+
+        public void ItemClicked(string query, int id)
+        {
+            Dictionary<int, int> queryItemClickedCount = null;
             if (!itemsClickedInSearch.ContainsKey(query))
             {
-                queryItemClickedCount = new Dictionary<string, int>();
+                queryItemClickedCount = new Dictionary<int, int>();
                 itemsClickedInSearch.Add(query, queryItemClickedCount);
             }
             else
@@ -57,16 +76,16 @@ namespace Services.SearchLearning
         {
             if (!itemsClickedInSearch.ContainsKey(query)) return;
 
-            var itemsOfSearch = _elasticService.Search(query);
+            // var itemsOfSearch = _elasticService.Search(query);
 
             List<OfferItemClicked> itemsClicked = new List<OfferItemClicked>();
 
-            foreach (var item in itemsOfSearch)
-            {
-                OfferItemClicked itemClicked = new OfferItemClicked();
-                itemClicked.Item = item;
-                // itemsClickedInSearch
-            }
+            // foreach (var item in itemsOfSearch)
+            // {
+            //     OfferItemClicked itemClicked = new OfferItemClicked();
+            //     itemClicked.Item = item.Item;
+            //     // itemsClickedInSearch
+            // }
 
             // itemsClickedInSearch[query]
         }

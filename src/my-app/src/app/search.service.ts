@@ -44,7 +44,7 @@ export class SearchService {
     return this.http.get(`${environment.server.url}/api/search?query=${query}`); 
   }
 
-  public itemClicked(item: any) {
-    this.http.post(`${environment.server.url}/api/search?query=${this.currentQuery}&id=${item.id}`, null);
+  public itemClicked(id: number) {
+    this.http.post(`${environment.server.url}/api/search?query=${this.currentQuery}&id=${id}`, null).subscribe();
   }
 }
