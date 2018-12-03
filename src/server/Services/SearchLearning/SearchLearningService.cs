@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Elastic.Repository;
 using Models;
 
 namespace Services.SearchLearning
@@ -9,6 +10,7 @@ namespace Services.SearchLearning
     {
         private const int NUMBER_OF_CLICKS_TO_RECALCULATE = 10;
         private JavascriptExecutor _javascriptExecutor;
+        private ElasticRepository _elasticRepository;
 
         //move to redis when finished
         public static Dictionary<String, Dictionary<int, int>> itemsClickedInSearch = new Dictionary<string, Dictionary<int, int>>();
@@ -16,12 +18,24 @@ namespace Services.SearchLearning
         public static Dictionary<String, String> trainedModels;
 
         public SearchLearningService(
-            JavascriptExecutor javascriptExecutor)
+            JavascriptExecutor javascriptExecutor,
+            ElasticRepository elasticRepository)
         {
             _javascriptExecutor = javascriptExecutor;
+            _elasticRepository = elasticRepository;
         }
 
         public IEnumerable<NeuralItemResult> OrderOffers(IEnumerable<Offer> offers, string query)
+        {
+            var neuralItems = GetLeadData(offers, query);
+            if (neuralItems == null) return null;
+
+            neuralItems = OrderByNeuralNetwork(neuralItems, query);
+
+            return neuralItems;
+        }
+
+        private List<NeuralItemResult> GetLeadData(IEnumerable<Offer> offers, string query)
         {
             if (offers == null) return null;
 
@@ -44,8 +58,6 @@ namespace Services.SearchLearning
                 return neuralItem;
             }).ToList();
 
-            neuralItems = OrderByNeuralNetwork(neuralItems, query);
-
             return neuralItems;
         }
 
@@ -58,7 +70,7 @@ namespace Services.SearchLearning
             {
                 neuralItems[i].NeuralOrder = order[i];
             }
-            
+
             return neuralItems;
         }
 
@@ -127,20 +139,17 @@ namespace Services.SearchLearning
 
         private void RecalculateNeuralNetwork(string query)
         {
-            if (!itemsClickedInSearch.ContainsKey(query)) return;
+            if (itemsClickedInSearch == null || !itemsClickedInSearch.ContainsKey(query)) return;
+            var offers = _elasticRepository.SearchOffer(query);
 
-            // var itemsOfSearch = _elasticService.Search(query);
+            var neuralItems = GetLeadData(offers, query);
+            if(neuralItems == null) return;
 
-            List<OfferItemClicked> itemsClicked = new List<OfferItemClicked>();
+            var neuralTrainingData = GetNeuralTrainingData(neuralItems);
 
-            // foreach (var item in itemsOfSearch)
-            // {
-            //     OfferItemClicked itemClicked = new OfferItemClicked();
-            //     itemClicked.Item = item.Item;
-            //     // itemsClickedInSearch
-            // }
+            if(neuralTrainingData == null || neuralTrainingData.xs.Count() == 0) return;
 
-            // itemsClickedInSearch[query]
+            // TODO recalculate model and save on the training static dictionary
         }
     }
 }
