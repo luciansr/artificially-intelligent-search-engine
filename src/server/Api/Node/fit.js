@@ -16,8 +16,8 @@ module.exports = async function (callback, data) {
     const xs = tf.tensor2d(data.xs, [xSize, xWidth]);
 
     const ySize = data.ys.length;
-    const ySize = data.ys[0].length;
-    const ys = tf.tensor2d(data.ys, [ySize, ySize]);
+    const yWidth = 1;
+    const ys = tf.tensor2d(data.ys, [ySize, yWidth]);
 
     // Train the model using the data.
     model.fit(xs, ys, {epochs: 40}).then(() => {

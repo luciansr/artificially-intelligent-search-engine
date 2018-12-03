@@ -30,7 +30,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content> -->
     <Content Include="Node\*.js" CopyToOutputDirectory="PreserveNewest" />
-    <!-- <Content Include="Node\node_modules\**\*" CopyToOutputDirectory="PreserveNewest" /> -->
+    <!-- <Content Include="Node\node_modules\**\*" CopyToOutputDirectory="Always" /> -->
   </ItemGroup>
 
 </Project>
