@@ -25,6 +25,23 @@ namespace Api
             Configuration = configuration;
         }
 
+        // private class ConsoleLogger : ILogger
+        // {
+        //     public IDisposable BeginScope<TState>(TState state)
+        //     {
+        //     }
+
+        //     public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel)
+        //     {
+        //         return true;
+        //     }
+
+        //     public void Log<TState>(Microsoft.Extensions.Logging.LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        //     {
+        //         Console.WriteLine(logLevel + " - " + formatter.ToString());
+        //     }
+        // }
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -39,7 +56,9 @@ namespace Api
             services.AddTransient<SearchLearningService>();
             services.AddTransient<JavascriptExecutor>();
 
-            services.AddNodeServices();
+            services.AddNodeServices(setupAction => {
+                // setupAction.NodeInstanceOutputLogger = services.;
+            });
         }
 
         private void RedisConfig(IServiceCollection services) {

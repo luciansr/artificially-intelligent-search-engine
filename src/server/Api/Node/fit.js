@@ -6,17 +6,18 @@ module.exports = async function (callback, data) {
 
     // Define a model for linear regression.
     const model = tf.sequential();
-    model.add(tf.layers.dense({ units: 1, inputShape: [1] }));
+
+    const xSize = data.xs.length;
+    const xWidth = data.xs[0].length;
+    const ySize = data.ys.length;
+    const yWidth = 1;
+
+    model.add(tf.layers.dense({ units: 1, inputShape: [xWidth] }));
 
     // Prepare the model for training: Specify the loss and the optimizer.
     model.compile({ loss: 'meanSquaredError', optimizer: 'sgd' });
 
-    const xSize = data.xs.length;
-    const xWidth = data.xs[0].length;
     const xs = tf.tensor2d(data.xs, [xSize, xWidth]);
-
-    const ySize = data.ys.length;
-    const yWidth = 1;
     const ys = tf.tensor2d(data.ys, [ySize, yWidth]);
 
     // Train the model using the data.
