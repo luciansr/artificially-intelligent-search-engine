@@ -14,3 +14,8 @@ docker-compose up -d
 ```sh
 sudo sysctl -w vm.max_map_count=262144
 ```
+
+# need to run python
+```python
+python3 -m pip install requests
+```
