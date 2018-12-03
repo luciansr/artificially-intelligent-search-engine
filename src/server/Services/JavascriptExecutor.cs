@@ -19,15 +19,15 @@ namespace Services
         {
             return _nodeServices.InvokeAsync<Object>("./Node/neuralNetwork", data).Result;
         }
-        public string Fit(NeuralTrainingData data)
+        public string Fit(string query, NeuralTrainingData data)
         {
-            var result = _nodeServices.InvokeAsync<string>("./Node/fit", data).Result;
+            var result = _nodeServices.InvokeAsync<string>("./Node/fit", query, data).Result;
             return result;
         }
 
-        public List<int> Predict(string savedModel, NeuralTestData data)
+        public List<int> Predict(string query, NeuralTestData data)
         {
-            var result = _nodeServices.InvokeAsync<List<int>>("./Node/predict", savedModel, data).Result;
+            var result = _nodeServices.InvokeAsync<List<int>>("./Node/predict", query, data).Result;
             return result;
         }
     }

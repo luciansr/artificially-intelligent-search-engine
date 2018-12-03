@@ -1,5 +1,5 @@
 
-module.exports = async function (callback, data) {
+module.exports = async function (callback, query, data) {
     const tf = require('@tensorflow/tfjs');
     // Load the binding:
     require('@tensorflow/tfjs-node');  // Use '@tensorflow/tfjs-node-gpu' if running with GPU.
@@ -23,7 +23,10 @@ module.exports = async function (callback, data) {
     // Train the model using the data.
     model.fit(xs, ys, {epochs: 40}).then(() => {
         const savedModel = model.toJSON();
-        model.save('file://./my-model-1').then(saved => {
+
+        var folderName = query.replace(/^[a-zA-Z0-9]/gi, '');
+
+        model.save('file://./LearnedWeights/' + folderName).then(saved => {
             callback(null, JSON.stringify(savedModel));
         });
     });

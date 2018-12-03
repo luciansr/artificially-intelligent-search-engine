@@ -154,9 +154,8 @@ namespace Services.SearchLearning
             var neuralTrainingData = GetNeuralTrainingData(neuralItems);
 
             if (neuralTrainingData == null || neuralTrainingData.xs.Count() == 0) return;
-
             // TODO recalculate model and save on the training static dictionary
-            string model = _javascriptExecutor.Fit(neuralTrainingData);
+            string model = _javascriptExecutor.Fit(query, neuralTrainingData);
 
             if (trainedModels.ContainsKey(query))
             {
