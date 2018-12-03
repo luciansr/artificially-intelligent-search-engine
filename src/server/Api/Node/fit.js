@@ -23,7 +23,9 @@ module.exports = async function (callback, data) {
     // Train the model using the data.
     model.fit(xs, ys, {epochs: 40}).then(() => {
         const savedModel = model.toJSON();
-        callback(null, savedModel);
+        model.save('file://./my-model-1').then(saved => {
+            callback(null, JSON.stringify(savedModel));
+        });
     });
     
 } 
