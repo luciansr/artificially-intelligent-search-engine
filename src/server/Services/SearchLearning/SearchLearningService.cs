@@ -91,9 +91,9 @@ namespace Services.SearchLearning
             NeuralTestData data = new NeuralTestData();
 
             data.xs = items.Select(i => new List<int> {
-                i.Item.height,
-                i.Item.width,
-                i.Item.weight
+                i.Item.height / 1000,
+                i.Item.width / 1000,
+                i.Item.weight / 1000
             });
 
             return data;
@@ -105,9 +105,9 @@ namespace Services.SearchLearning
             NeuralTrainingData data = new NeuralTrainingData();
 
             data.xs = itemsToUse.Select(i => new List<int> {
-                // i.Item.height,
-                // i.Item.width,
-                i.Item.weight
+                i.Item.height / 1000,
+                i.Item.width / 1000,
+                i.Item.weight / 1000
             });
 
             data.ys = itemsToUse.Select(i => i.LeadInQuery);
