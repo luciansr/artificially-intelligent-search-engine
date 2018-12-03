@@ -24,7 +24,7 @@ namespace Services.SearchLearning
         public IEnumerable<NeuralItemResult> OrderOffers(IEnumerable<Offer> offers, string query)
         {
             if (offers == null) return null;
-            
+
             Dictionary<int, int> itemsClickedInThisSearch = null;
 
             if (!String.IsNullOrEmpty(query) && itemsClickedInSearch.ContainsKey(query))
@@ -42,16 +42,59 @@ namespace Services.SearchLearning
                     neuralItem.LeadInQuery = itemsClickedInThisSearch[offer.id];
                 }
                 return neuralItem;
-            });
+            }).ToList();
 
-            neuralItems = OrderByNeuralNetwork(neuralItems);
+            neuralItems = OrderByNeuralNetwork(neuralItems, query);
 
             return neuralItems;
         }
 
-        private IEnumerable<NeuralItemResult> OrderByNeuralNetwork(IEnumerable<NeuralItemResult> neuralItems)
+        private List<NeuralItemResult> OrderByNeuralNetwork(List<NeuralItemResult> neuralItems, string query)
         {
-            throw new NotImplementedException();
+            var neuralData = GetNeuralTestData(neuralItems);
+            var order = ExecuteOrdering(neuralData, query);
+
+            for (int i = 0; i < order.Count(); ++i)
+            {
+                neuralItems[i].NeuralOrder = order[i];
+            }
+            
+            return neuralItems;
+        }
+
+        private List<int> ExecuteOrdering(NeuralTestData neuralTestData, string query)
+        {
+            //TODO execute javascript to predict values
+            return neuralTestData.xs.Select(x => 1).ToList();
+        }
+
+        private NeuralTestData GetNeuralTestData(IEnumerable<NeuralItemResult> items)
+        {
+            NeuralTestData data = new NeuralTestData();
+
+            data.xs = items.Select(i => new List<int> {
+                i.Item.height,
+                i.Item.width,
+                i.Item.weight
+            });
+
+            return data;
+        }
+
+        private NeuralTrainingData GetNeuralTrainingData(IEnumerable<NeuralItemResult> items)
+        {
+            var itemsToUse = items.Where(i => i.LeadInQuery > 0);
+            NeuralTrainingData data = new NeuralTrainingData();
+
+            data.xs = itemsToUse.Select(i => new List<int> {
+                i.Item.height,
+                i.Item.width,
+                i.Item.weight
+            });
+
+            data.ys = itemsToUse.Select(i => i.LeadInQuery);
+
+            return data;
         }
 
         public void ItemClicked(string query, int id)

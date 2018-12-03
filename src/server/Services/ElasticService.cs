@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Elastic.Repository;
 using Models;
 using Services.SearchLearning;
@@ -20,7 +21,8 @@ namespace Services
         {
             var offers = _elasticRepository.SearchOffer(query);
             if(offers == null) return null;
-            return _searchLearningService.OrderOffers(offers, query);
+            var orderedOffers = _searchLearningService.OrderOffers(offers, query);
+            return orderedOffers.Take(10);
         }
     }
 }

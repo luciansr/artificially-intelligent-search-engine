@@ -46,7 +46,8 @@ namespace Elastic.Repository
             var result = _elasticClient.LowLevel.Search<SearchResponse<Offer>>("index_offer", "offer", PostData.Serializable(new
             {
                 from = 0,
-                size = 11,
+                //taking 'all' results to the neural network decide which is best to show
+                size = 1000,
                 query = new
                 {
                     match = new
