@@ -24,8 +24,6 @@ module.exports = async function (callback, query, data) {
     model.fit(xs, ys, {epochs: 40}).then(() => {
         const savedModel = model.toJSON();
 
-        //model.predict(tf.tensor2d([[0.110, 0.810, 0.350]], [1, 3])).print();
-
         var folderName = query.replace(/[^a-zA-Z0-9]/gi, '');
 
         model.save('file://./LearnedWeights/' + folderName).then(saved => {

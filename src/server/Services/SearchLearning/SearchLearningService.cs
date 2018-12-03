@@ -105,8 +105,8 @@ namespace Services.SearchLearning
             NeuralTrainingData data = new NeuralTrainingData();
 
             data.xs = itemsToUse.Select(i => new List<int> {
-                i.Item.height,
-                i.Item.width,
+                // i.Item.height,
+                // i.Item.width,
                 i.Item.weight
             });
 
