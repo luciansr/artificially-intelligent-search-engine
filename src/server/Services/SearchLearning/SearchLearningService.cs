@@ -15,7 +15,7 @@ namespace Services.SearchLearning
         //move to redis when finished
         public static Dictionary<String, Dictionary<int, int>> itemsClickedInSearch = new Dictionary<string, Dictionary<int, int>>();
         //move to redis when finished
-        public static Dictionary<String, String> trainedModels;
+        public static Dictionary<String, String> trainedModels = new Dictionary<string, string>();
 
         public SearchLearningService(
             JavascriptExecutor javascriptExecutor,
@@ -76,8 +76,14 @@ namespace Services.SearchLearning
 
         private List<int> ExecuteOrdering(NeuralTestData neuralTestData, string query)
         {
-            //TODO execute javascript to predict values
-            return neuralTestData.xs.Select(x => 1).ToList();
+            if (!trainedModels.ContainsKey(query))
+            {
+                return neuralTestData.xs.Select(x => 1).ToList();
+            }
+            else
+            {
+                return _javascriptExecutor.Predict(trainedModels[query], neuralTestData);
+            }
         }
 
         private NeuralTestData GetNeuralTestData(IEnumerable<NeuralItemResult> items)
@@ -143,13 +149,21 @@ namespace Services.SearchLearning
             var offers = _elasticRepository.SearchOffer(query);
 
             var neuralItems = GetLeadData(offers, query);
-            if(neuralItems == null) return;
+            if (neuralItems == null) return;
 
             var neuralTrainingData = GetNeuralTrainingData(neuralItems);
 
-            if(neuralTrainingData == null || neuralTrainingData.xs.Count() == 0) return;
+            if (neuralTrainingData == null || neuralTrainingData.xs.Count() == 0) return;
 
             // TODO recalculate model and save on the training static dictionary
+            string model = _javascriptExecutor.Fit(neuralTrainingData);
+
+            if (trainedModels.ContainsKey(query))
+            {
+                trainedModels.Remove(query);
+            }
+
+            trainedModels.Add(query, model);
         }
     }
 }
