@@ -65,6 +65,7 @@ namespace Services.SearchLearning
         {
             var neuralData = GetNeuralTestData(neuralItems);
             var order = ExecuteOrdering(neuralData, query);
+            if(order == null) return neuralItems;
 
             for (int i = 0; i < order.Count(); ++i)
             {
