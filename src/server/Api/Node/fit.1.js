@@ -24,9 +24,9 @@ module.exports = async function (callback, query, data) {
     model.fit(xs, ys, {epochs: 40}).then(() => {
         const savedModel = model.toJSON();
 
-        var folderName = query.replace(/[^a-zA-Z0-9]/gi, '');
-
-        model.save('file://./LearnedWeights/' + folderName).then(saved => {
+        const folderName = query.replace(/[^a-zA-Z0-9]/gi, '');
+        const fullFolderName = 'file://./LearnedWeights/' + folderName;
+        model.save(fullFolderName).then(saved => {
             callback(null, JSON.stringify(savedModel));
         });
     });

@@ -4,7 +4,7 @@ namespace Models
 {
     public class NeuralTrainingData
     {
-        public IEnumerable<List<int>> xs { get; set; }
-        public IEnumerable<int> ys { get; set; }
+        public IEnumerable<List<double>> xs { get; set; }
+        public IEnumerable<double> ys { get; set; }
     }
 }

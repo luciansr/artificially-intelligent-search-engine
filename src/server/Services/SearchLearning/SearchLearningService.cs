@@ -82,7 +82,7 @@ namespace Services.SearchLearning
             }
             else
             {
-                return _javascriptExecutor.Predict(trainedModels[query], neuralTestData);
+                return _javascriptExecutor.Predict(query, neuralTestData, trainedModels[query]);
             }
         }
 
@@ -90,7 +90,7 @@ namespace Services.SearchLearning
         {
             NeuralTestData data = new NeuralTestData();
 
-            data.xs = items.Select(i => new List<int> {
+            data.xs = items.Select(i => new List<double> {
                 i.Item.height / 1000,
                 i.Item.width / 1000,
                 i.Item.weight / 1000
@@ -104,13 +104,13 @@ namespace Services.SearchLearning
             var itemsToUse = items.Where(i => i.LeadInQuery > 0);
             NeuralTrainingData data = new NeuralTrainingData();
 
-            data.xs = itemsToUse.Select(i => new List<int> {
+            data.xs = itemsToUse.Select(i => new List<double> {
                 i.Item.height / 1000,
                 i.Item.width / 1000,
                 i.Item.weight / 1000
             });
 
-            data.ys = itemsToUse.Select(i => i.LeadInQuery);
+            data.ys = itemsToUse.Select(i => (double)i.LeadInQuery);
 
             return data;
         }

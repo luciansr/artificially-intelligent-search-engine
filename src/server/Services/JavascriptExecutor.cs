@@ -25,9 +25,9 @@ namespace Services
             return result;
         }
 
-        public List<int> Predict(string query, NeuralTestData data)
+        public List<int> Predict(string query, NeuralTestData data, string savedModel)
         {
-            var result = _nodeServices.InvokeAsync<List<int>>("./Node/predict", query, data).Result;
+            var result = _nodeServices.InvokeAsync<List<int>>("./Node/predict", query, data, savedModel).Result;
             return result;
         }
     }
