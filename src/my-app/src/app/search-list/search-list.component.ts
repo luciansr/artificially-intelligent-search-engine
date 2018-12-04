@@ -20,7 +20,8 @@ export class SearchListComponent implements OnInit {
     this.searchService.queryResponseObservable().subscribe((data: any[]) => {
       if (data) {
         data.sort((a, b) => {
-          return b.leadInQuery - a.leadInQuery;
+          //return b.leadInQuery - a.leadInQuery;
+          return b.neuralOrder - a.neuralOrder;          
         });
       }
       this.searchItems = data;

@@ -75,11 +75,11 @@ namespace Services.SearchLearning
             return neuralItems;
         }
 
-        private List<int> ExecuteOrdering(NeuralTestData neuralTestData, string query)
+        private List<double> ExecuteOrdering(NeuralTestData neuralTestData, string query)
         {
             if (!trainedModels.ContainsKey(query))
             {
-                return neuralTestData.xs.Select(x => 1).ToList();
+                return neuralTestData.xs.Select(x => 1.0).ToList();
             }
             else
             {

@@ -23,7 +23,8 @@ module.exports = async function (callback, query, data, savedModel) {
     // Predict the data using the model.
     // model.predict(xs).print();
     xs.print();
-    result = model.predict(xs).as1D().print();
+    result = model.predict(xs).as1D();
+    console.log('teste');
 
-    callback(null, result);
+    callback(null, Array.from(result.dataSync()));
 } 
