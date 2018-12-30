@@ -1,4 +1,4 @@
-# search-engine-testing
+# artificially-intelligent-search-engine
 
 # docker-compose
 ```sh
